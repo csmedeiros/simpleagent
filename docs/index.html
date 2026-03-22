@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Como um agente de IA funciona — passo a passo</title>
+    <title>Como um agente de IA funciona</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
@@ -12,215 +14,205 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Georgia', 'Times New Roman', serif;
-            background: #000;
-            color: #e0e0e0;
-            line-height: 1.9;
+            font-family: 'Playfair Display', Georgia, serif;
+            background: #fff;
+            color: #111;
+            line-height: 1.8;
             -webkit-font-smoothing: antialiased;
         }
 
         .container {
-            max-width: 640px;
+            max-width: 620px;
             margin: 0 auto;
-            padding: 5rem 1.5rem 8rem;
+            padding: 6rem 1.5rem 10rem;
         }
 
         h1 {
-            font-size: 2.8rem;
-            font-weight: 400;
-            margin-bottom: 0.4rem;
-            color: #fff;
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 0.6rem;
             letter-spacing: -0.02em;
         }
 
         .subtitle {
-            color: #666;
             font-size: 1.15rem;
-            margin-bottom: 4rem;
+            color: #888;
+            font-weight: 400;
             font-style: italic;
+            margin-bottom: 5rem;
         }
 
-        /* Steps */
         .step {
-            margin-bottom: 3rem;
-            animation: fadeIn 0.5s ease;
+            margin-bottom: 4rem;
+            animation: fadeIn 0.4s ease;
         }
+
+        .step + .step { border-top: 1px solid #e0e0e0; padding-top: 4rem; }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .step-number {
-            display: block;
+        .step-label {
             font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 600;
+            font-size: 0.7rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: #555;
-            margin-bottom: 0.8rem;
+            letter-spacing: 0.15em;
+            color: #aaa;
+            margin-bottom: 1rem;
         }
 
         .step h2 {
-            font-size: 1.8rem;
-            font-weight: 400;
+            font-size: 2rem;
+            font-weight: 700;
             margin-bottom: 1.2rem;
-            color: #fff;
-            letter-spacing: -0.01em;
+            line-height: 1.2;
         }
 
         .step p {
-            color: #999;
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
             font-size: 1.1rem;
-            margin-bottom: 1.4rem;
+            color: #444;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
         }
 
-        .step p strong { color: #e0e0e0; }
+        .step p strong { color: #111; }
         .step p code {
             font-family: 'SF Mono', 'Fira Code', monospace;
-            background: #111;
-            border: 1px solid #222;
-            padding: 0.15em 0.45em;
+            background: #f5f5f5;
+            border: 1px solid #e5e5e5;
+            padding: 0.1em 0.4em;
             border-radius: 3px;
             font-size: 0.85em;
-            color: #ccc;
+            color: #333;
         }
 
-        /* Code blocks */
+        /* Code */
         .code-block {
-            border-radius: 6px;
+            border-radius: 8px;
             overflow: hidden;
             margin: 1.5rem 0;
-            border: 1px solid #1a1a1a;
+            border: 1px solid #e0e0e0;
         }
 
         .code-label {
-            background: #0a0a0a;
-            padding: 0.5rem 1rem;
+            background: #fafafa;
+            padding: 0.4rem 1rem;
             font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #444;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #999;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.1em;
+            border-bottom: 1px solid #e0e0e0;
         }
 
         .code-block pre {
             margin: 0;
-            padding: 1.2rem 1.4rem;
-            background: #0a0a0a;
+            padding: 1.2rem 1.3rem;
+            background: #1a1a1a;
             overflow-x: auto;
         }
 
         .code-block code {
-            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
-            font-size: 0.85rem;
-            line-height: 1.6;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.65;
         }
 
-        /* Data boxes */
-        .data-box {
-            border-radius: 6px;
-            border: 1px solid #1a1a1a;
+        /* Boxes */
+        .box {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
             padding: 1.2rem 1.4rem;
             margin: 1.5rem 0;
             font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-            font-size: 0.95rem;
-            background: #0a0a0a;
         }
 
-        .data-box .label {
-            font-size: 0.7rem;
-            font-weight: 600;
+        .box .label {
+            font-size: 0.65rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #555;
-            margin-bottom: 0.6rem;
+            letter-spacing: 0.1em;
+            color: #999;
+            margin-bottom: 0.5rem;
         }
 
-        .data-box .content { color: #ccc; line-height: 1.7; }
-        .data-box .content .dim { color: #555; }
-
-        /* Remove color classes — everything is monochrome */
-        .data-box.blue, .data-box.green, .data-box.yellow,
-        .data-box.purple, .data-box.orange {
-            border-color: #1a1a1a;
-            background: #0a0a0a;
-        }
-        .data-box.blue .label, .data-box.green .label, .data-box.yellow .label,
-        .data-box.purple .label, .data-box.orange .label { color: #555; }
+        .box .content { color: #333; font-size: 1rem; line-height: 1.7; }
+        .box .dim { color: #aaa; font-size: 0.85rem; }
 
         /* Callout */
         .callout {
-            border-left: 2px solid #333;
-            padding: 1rem 1.2rem;
-            margin: 1.5rem 0;
-            color: #888;
+            border-left: 3px solid #111;
+            padding: 1rem 1.3rem;
+            margin: 2rem 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+            color: #555;
             font-size: 1rem;
+            line-height: 1.7;
         }
 
-        .callout.important { border-left-color: #555; }
-        .callout strong { color: #ccc; }
+        .callout strong { color: #111; }
 
         /* Diagram */
         .diagram {
-            background: #0a0a0a;
-            border: 1px solid #1a1a1a;
-            border-radius: 6px;
+            background: #fafafa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
             padding: 2rem;
             margin: 2rem 0;
             text-align: center;
             font-family: 'SF Mono', 'Fira Code', monospace;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             line-height: 2.2;
-            color: #666;
+            color: #888;
         }
 
-        .diagram .highlight { color: #fff; font-weight: 600; }
-        .diagram .green { color: #999; }
-        .diagram .yellow { color: #999; }
-        .diagram .arrow { color: #333; }
+        .diagram b { color: #111; }
 
         /* History */
         .history-msg {
             display: flex;
-            gap: 0.8rem;
-            padding: 0.6rem 0;
-            border-bottom: 1px solid #111;
+            gap: 1rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f0f0f0;
             font-size: 0.9rem;
         }
         .history-msg:last-child { border-bottom: none; }
         .history-role {
-            min-width: 120px;
-            font-weight: 600;
-            font-size: 0.7rem;
+            min-width: 110px;
+            font-weight: 700;
+            font-size: 0.65rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: #555;
-            padding-top: 0.15rem;
+            color: #999;
+            padding-top: 0.2rem;
         }
-        .history-body { color: #888; flex: 1; word-break: break-word; }
+        .history-body { color: #555; flex: 1; word-break: break-word; }
 
         /* Button */
         .btn-next {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.85rem 2rem;
-            background: #fff;
-            color: #000;
+            padding: 0.9rem 2.2rem;
+            background: #111;
+            color: #fff;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: background 0.2s;
             margin-top: 1rem;
         }
 
-        .btn-next:hover { background: #e0e0e0; }
+        .btn-next:hover { background: #333; }
 
         /* Progress */
         .progress {
@@ -228,7 +220,7 @@
             top: 0;
             left: 0;
             height: 2px;
-            background: #fff;
+            background: #111;
             transition: width 0.4s ease;
             z-index: 100;
         }
@@ -236,29 +228,20 @@
         .step-counter {
             position: fixed;
             top: 14px;
-            right: 18px;
+            right: 20px;
             font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-            font-size: 0.75rem;
-            color: #444;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #bbb;
             z-index: 100;
         }
 
         .hidden { display: none; }
 
-        /* Separator between steps */
-        .step + .step::before {
-            content: '';
-            display: block;
-            width: 40px;
-            height: 1px;
-            background: #222;
-            margin-bottom: 3rem;
-        }
-
         @media (max-width: 640px) {
             .container { padding: 3rem 1.2rem 6rem; }
-            h1 { font-size: 2rem; }
-            .step h2 { font-size: 1.4rem; }
+            h1 { font-size: 2.4rem; }
+            .step h2 { font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -268,9 +251,7 @@
 
     <div class="container">
         <h1>Como um agente de IA funciona</h1>
-        <p class="subtitle">
-            Passo a passo, sem frameworks — só Python e a API da OpenAI.
-        </p>
+        <p class="subtitle">Passo a passo, sem frameworks.</p>
 
         <div id="steps-container"></div>
     </div>
@@ -278,348 +259,212 @@
     <script>
     const STEPS = [
 
-    // =====================================================================
-    // STEP 0: Intro
-    // =====================================================================
+    // INTRO
     {
         render: () => `
-            <h2>O que é um agente de IA?</h2>
+            <h2>Um agente é um loop.</h2>
             <p>
-                Todo mundo fala de "agentes autônomos", mas na prática um agente é algo simples:
-                <strong>é um loop</strong>.
-            </p>
-            <p>
-                Um LLM (como GPT-4) sozinho só recebe texto e retorna texto.
-                Ele não sabe a hora atual, não acessa a internet, não faz cálculos.
-                Mas se dermos a ele <strong>ferramentas (tools)</strong> e um <strong>loop de decisão</strong>,
-                ele se torna um agente capaz de agir no mundo.
+                Um LLM sozinho só recebe texto e devolve texto. Não acessa a internet, não faz cálculos.
+                Mas se você der a ele <strong>ferramentas</strong> e um <strong>loop de decisão</strong>,
+                ele vira um agente.
             </p>
             <div class="diagram">
-                <span class="highlight">Usuário pergunta</span><br>
-                <span class="arrow">↓</span><br>
-                <span class="highlight">LLM analisa</span> (com histórico + tools disponíveis)<br>
-                <span class="arrow">↓</span><br>
-                Responde direto? → <span class="green">Fim</span><br>
-                Quer chamar tool? → <span class="yellow">Executa</span> → resultado volta pro histórico → <span class="highlight">LLM analisa de novo</span><br>
-                <span class="arrow">↓</span><br>
-                <em>...repete até ter a resposta final</em>
+                <b>Usuário pergunta</b><br>
+                ↓<br>
+                <b>LLM analisa</b> (histórico + tools)<br>
+                ↓<br>
+                Responde direto? → <b>Fim</b><br>
+                Quer chamar tool? → Executa → resultado volta → <b>LLM analisa de novo</b><br>
+                ↓<br>
+                <em>...repete até ter resposta final</em>
             </div>
-            <p>
-                Esse padrão se chama <strong>ReAct</strong> (Reasoning and Acting).
-                Vamos construí-lo do zero agora.
-            </p>
+            <p>Isso se chama <strong>ReAct</strong> (Reasoning and Acting). Vamos construir passo a passo.</p>
         `
     },
 
-    // =====================================================================
-    // STEP 1: User input
-    // =====================================================================
+    // 1
     {
         render: () => `
-            <div class="step-number">Passo 1 de 10</div>
-            <h2>A pergunta do usuário</h2>
-            <p>Tudo começa com o usuário fazendo uma pergunta. Neste exemplo:</p>
-            <div class="data-box blue">
+            <div class="step-label">Passo 1 de 10</div>
+            <h2>A pergunta</h2>
+            <div class="box">
                 <div class="label">Input do usuário</div>
                 <div class="content">"Quanto é 42 × 17? E o que é Python?"</div>
             </div>
-            <p>
-                Repare que essa pergunta tem <strong>duas partes</strong>: um cálculo matemático
-                e uma busca por informação. O LLM sozinho poderia tentar responder de cabeça,
-                mas se tiver ferramentas disponíveis, ele pode <strong>escolher usá-las</strong>
-                para dar respostas mais precisas.
-            </p>
+            <p>Duas partes: um cálculo e uma busca por informação. O LLM vai decidir como resolver cada uma.</p>
         `
     },
 
-    // =====================================================================
-    // STEP 2: System prompt
-    // =====================================================================
+    // 2
     {
         render: () => `
-            <div class="step-number">Passo 2 de 10</div>
-            <h2>O System Prompt — instruções para o LLM</h2>
-            <p>
-                Antes de enviar a pergunta, definimos um <strong>system prompt</strong> que diz ao LLM
-                como se comportar. É como dar instruções a um funcionário antes dele começar a trabalhar.
-            </p>
+            <div class="step-label">Passo 2 de 10</div>
+            <h2>O system prompt</h2>
+            <p>Instruções que dizem ao LLM como se comportar e que ele tem ferramentas disponíveis.</p>
             ${codeBlock('python', `system_prompt = "Você é um assistente que usa ferramentas quando necessário. Seja conciso."`)}
-            <div class="data-box purple">
-                <div class="label">System Prompt</div>
-                <div class="content">"Você é um assistente que usa ferramentas quando necessário. Seja conciso."</div>
-            </div>
-            <p>
-                Essa instrução é crucial — ela diz ao LLM que ele <strong>tem ferramentas</strong>
-                e <strong>deve usá-las quando fizer sentido</strong>.
-            </p>
         `
     },
 
-    // =====================================================================
-    // STEP 3: Tools
-    // =====================================================================
+    // 3
     {
         render: () => `
-            <div class="step-number">Passo 3 de 10</div>
-            <h2>Definindo as ferramentas (tools)</h2>
-            <p>
-                Ferramentas são <strong>funções Python normais</strong> que o LLM pode pedir para executar.
-                Nós descrevemos cada uma em JSON Schema para que o LLM saiba o que elas fazem e quais parâmetros aceitam.
-            </p>
-            ${codeBlock('python', `# Nossas funções Python
-def calcular(operacao: str, a: float, b: float) -> float:
-    """Faz um cálculo matemático entre dois números."""
+            <div class="step-label">Passo 3 de 10</div>
+            <h2>As ferramentas</h2>
+            <p>Funções Python normais, descritas em JSON Schema para o LLM entender o que fazem.</p>
+            ${codeBlock('python', `def calcular(operacao: str, a: float, b: float) -> float:
+    """Faz um cálculo matemático."""
     ops = {"soma": a + b, "subtracao": a - b,
            "multiplicacao": a * b, "divisao": a / b}
     return ops.get(operacao)
 
 def buscar_informacao(topico: str) -> str:
     """Busca informações sobre um tópico."""
-    # Conectaria a uma API real (Google, Wikipedia, etc)
     return pesquisar(topico)`)}
-            <p>Para o LLM entender essas funções, convertemos para <strong>JSON Schema</strong>:</p>
-            ${codeBlock('json', JSON.stringify([
-                {type:"function",name:"calcular",description:"Faz um cálculo matemático entre dois números.",parameters:{type:"object",properties:{operacao:{type:"string"},a:{type:"number"},b:{type:"number"}},required:["operacao","a","b"]}},
-                {type:"function",name:"buscar_informacao",description:"Busca informações sobre um tópico.",parameters:{type:"object",properties:{topico:{type:"string"}},required:["topico"]}}
-            ], null, 2))}
+            <p>O JSON Schema descreve nome, descrição e parâmetros de cada função. É isso que o LLM vê.</p>
             <div class="callout">
-                <strong>O LLM não executa as funções.</strong> Ele só vê esse JSON Schema e decide se quer chamá-las e com quais argumentos.
-                Quem executa somos nós, no nosso código.
+                <strong>O LLM não executa nada.</strong> Ele só vê a descrição e decide se quer chamar. Quem executa somos nós.
             </div>
         `
     },
 
-    // =====================================================================
-    // STEP 4: Building messages
-    // =====================================================================
+    // 4
     {
         render: () => `
-            <div class="step-number">Passo 4 de 10</div>
-            <h2>Montando o histórico de mensagens</h2>
-            <p>
-                A API da OpenAI funciona com uma <strong>lista de mensagens</strong>.
-                Cada mensagem tem um papel (<code>role</code>) e um conteúdo (<code>content</code>).
-                Começamos com duas:
-            </p>
-            ${codeBlock('python', `import openai
-
-client = openai.Client(api_key="...")
-
-messages = [
-    {"role": "system", "content": "Você é um assistente que usa ferramentas quando necessário. Seja conciso."},
+            <div class="step-label">Passo 4 de 10</div>
+            <h2>O histórico de mensagens</h2>
+            <p>A API funciona com uma lista de mensagens. Começamos com duas:</p>
+            ${codeBlock('python', `messages = [
+    {"role": "system", "content": system_prompt},
     {"role": "user", "content": "Quanto é 42 * 17? E o que é Python?"},
 ]`)}
-            <div class="data-box blue">
-                <div class="label">Histórico atual — 2 mensagens</div>
-                <div class="content">
-                    <div class="history-msg">
-                        <span class="history-role">system</span>
-                        <span class="history-body">Você é um assistente que usa ferramentas quando necessário. Seja conciso.</span>
-                    </div>
-                    <div class="history-msg">
-                        <span class="history-role">user</span>
-                        <span class="history-body">Quanto é 42 × 17? E o que é Python?</span>
-                    </div>
-                </div>
-            </div>
-            <p>
-                Esse histórico vai <strong>crescer</strong> a cada iteração do loop. O LLM sempre recebe
-                o histórico completo para ter contexto de tudo que já aconteceu.
-            </p>
+            <p>Essa lista vai <strong>crescer</strong> a cada iteração. O LLM sempre recebe o histórico completo.</p>
         `
     },
 
-    // =====================================================================
-    // STEP 5: First API call
-    // =====================================================================
+    // 5
     {
         render: () => `
-            <div class="step-number">Passo 5 de 10</div>
-            <h2>Iteração 1 — Chamando o LLM</h2>
-            <p>Agora fazemos a primeira chamada à API, enviando o <strong>histórico</strong> e as <strong>tools disponíveis</strong>:</p>
+            <div class="step-label">Passo 5 de 10</div>
+            <h2>Iteração 1 — chamando o LLM</h2>
+            <p>Enviamos o histórico e as ferramentas disponíveis:</p>
             ${codeBlock('python', `response = client.responses.create(
     model="gpt-4o",
-    input=messages,       # Histórico: system + user
-    tools=tools,          # As 2 tools em JSON Schema
+    input=messages,
+    tools=tools,
 )`)}
+            <p>O LLM analisa tudo e decide: responder direto ou pedir ferramentas.</p>
+        `
+    },
+
+    // 6
+    {
+        render: () => `
+            <div class="step-label">Passo 6 de 10</div>
+            <h2>O LLM pediu ferramentas</h2>
+            <p>Ao invés de responder com texto, o <code>response.output</code> veio com <strong>tool calls</strong>. Este é o retorno real da API:</p>
+            ${codeBlock('python', `# response.output retornado pela API
+[
+    ResponseFunctionToolCall(
+        type="function_call",
+        name="calcular",
+        arguments='{"operacao": "multiplicacao", "a": 42, "b": 17}',
+        call_id="call_abc123",
+        id="fc_abc123",
+        status="completed",
+    ),
+    ResponseFunctionToolCall(
+        type="function_call",
+        name="buscar_informacao",
+        arguments='{"topico": "Python"}',
+        call_id="call_def456",
+        id="fc_def456",
+        status="completed",
+    ),
+]`)}
+            <p>Filtramos os items do tipo <code>function_call</code>:</p>
+            ${codeBlock('python', `tool_calls = [item for item in response.output
+              if item.type == "function_call"]
+
+# tool_calls[0].name       → "calcular"
+# tool_calls[0].arguments  → '{"operacao": "multiplicacao", "a": 42, "b": 17}'
+# tool_calls[0].call_id    → "call_abc123"`)}
             <div class="callout">
-                O LLM recebe tudo junto: as mensagens e a descrição das ferramentas. A partir disso, ele <strong>decide</strong>:
-                responder diretamente ou pedir para executar uma ou mais ferramentas.
-            </div>
-            <p>
-                Vamos ver o que ele retornou...
-            </p>
-        `
-    },
-
-    // =====================================================================
-    // STEP 6: LLM returns tool calls
-    // =====================================================================
-    {
-        render: () => `
-            <div class="step-number">Passo 6 de 10</div>
-            <h2>Iteração 1 — O LLM pediu ferramentas!</h2>
-            <p>
-                Ao invés de responder com texto, o LLM retornou <strong>duas tool calls</strong>
-                 — ele decidiu que precisa usar ferramentas para responder melhor:
-            </p>
-            ${codeBlock('python', `# response.output contém os items retornados pelo LLM
-for item in response.output:
-    print(item.type)
-    # "function_call"  ← o LLM quer chamar uma função!
-    # "function_call"  ← e outra também!`)}
-            <div class="data-box yellow">
-                <div class="label">Tool Call 1</div>
-                <div class="content">
-                    <strong>calcular</strong>(<code>{"operacao": "multiplicacao", "a": 42, "b": 17}</code>)<br>
-                    <span class="dim">call_id: "call_abc123"</span>
-                </div>
-            </div>
-            <div class="data-box yellow">
-                <div class="label">Tool Call 2</div>
-                <div class="content">
-                    <strong>buscar_informacao</strong>(<code>{"topico": "Python"}</code>)<br>
-                    <span class="dim">call_id: "call_def456"</span>
-                </div>
-            </div>
-            <div class="callout important">
-                <strong>Momento chave!</strong> O LLM <em>não</em> executou nada. Ele apenas disse:
-                "quero chamar <code>calcular</code> com esses argumentos e <code>buscar_informacao</code> com esses outros."
-                O <code>call_id</code> é um identificador para parear a chamada com o resultado depois.
+                <strong>Momento chave.</strong> O LLM não executou nada — a API retornou objetos dizendo quais funções ele quer chamar e com quais argumentos.
+                Os <code>arguments</code> são uma string JSON que precisamos parsear. O <code>call_id</code> pareia cada chamada com seu resultado depois.
             </div>
         `
     },
 
-    // =====================================================================
-    // STEP 7: Executing tools
-    // =====================================================================
+    // 7
     {
         render: () => `
-            <div class="step-number">Passo 7 de 10</div>
-            <h2>Iteração 1 — Executando as ferramentas</h2>
-            <p>
-                Agora <strong>nós</strong> (o código do agente) executamos as funções que o LLM pediu.
-                Parseamos os argumentos JSON, chamamos as funções Python, e montamos os resultados:
-            </p>
-            ${codeBlock('python', `import json
-
-for tool_call in tool_calls:
-    # 1. Parsear argumentos de JSON string → dict Python
+            <div class="step-label">Passo 7 de 10</div>
+            <h2>Executando as ferramentas</h2>
+            <p>Nós parseamos os argumentos e chamamos as funções:</p>
+            ${codeBlock('python', `for tool_call in tool_calls:
     args = json.loads(tool_call.arguments)
-
-    # 2. Buscar a função pelo nome
-    func = tools_map[tool_call.name]
-
-    # 3. Executar a função com os argumentos
-    result = func(**args)
-
-    print(f"{tool_call.name}({args}) → {result}")`)}
-            <div class="data-box green">
-                <div class="label">Resultado: calcular</div>
-                <div class="content">
-                    calcular(operacao="multiplicacao", a=42, b=17)<br>
-                    <strong>→ 714</strong>
-                </div>
+    result = tools_map[tool_call.name](**args)`)}
+            <div class="box">
+                <div class="label">calcular</div>
+                <div class="content">multiplicacao(42, 17) → <strong>714</strong></div>
             </div>
-            <div class="data-box green">
-                <div class="label">Resultado: buscar_informacao</div>
-                <div class="content">
-                    buscar_informacao(topico="Python")<br>
-                    <strong>→ "Python é uma linguagem de programação criada por Guido van Rossum em 1991."</strong>
-                </div>
+            <div class="box">
+                <div class="label">buscar_informacao</div>
+                <div class="content">"Python" → <strong>"Linguagem criada por Guido van Rossum em 1991."</strong></div>
             </div>
         `
     },
 
-    // =====================================================================
-    // STEP 8: Adding to history
-    // =====================================================================
+    // 8
     {
         render: () => `
-            <div class="step-number">Passo 8 de 10</div>
-            <h2>Iteração 1 — Atualizando o histórico</h2>
-            <p>
-                Adicionamos as <strong>tool calls</strong> e os <strong>resultados</strong> ao histórico.
-                O <code>call_id</code> conecta cada resultado à chamada que o gerou:
-            </p>
-            ${codeBlock('python', `# Adicionar cada tool call e seu resultado ao histórico
-for tool_call in tool_calls:
-    # A tool call do LLM (para a API saber o que ele pediu)
-    messages.append({
-        "type": "function_call",
-        "call_id": tool_call.call_id,
-        "name": tool_call.name,
-        "arguments": tool_call.arguments,
-    })
-
-    # O resultado da execução (para o LLM saber o que aconteceu)
-    messages.append({
-        "type": "function_call_output",
-        "call_id": tool_call.call_id,   # Mesmo call_id!
-        "output": str(result),
-    })`)}
-            <div class="data-box blue">
-                <div class="label">Histórico atual — 6 mensagens</div>
+            <div class="step-label">Passo 8 de 10</div>
+            <h2>Resultados voltam ao histórico</h2>
+            <p>Adicionamos as tool calls e seus resultados. O <code>call_id</code> conecta cada par:</p>
+            ${codeBlock('python', `messages.append({"type": "function_call", "call_id": "call_abc123", ...})
+messages.append({"type": "function_call_output", "call_id": "call_abc123", "output": "714"})`)}
+            <div class="box">
+                <div class="label">Histórico — 6 mensagens</div>
                 <div class="content">
                     <div class="history-msg"><span class="history-role">system</span><span class="history-body">Você é um assistente que usa ferramentas...</span></div>
                     <div class="history-msg"><span class="history-role">user</span><span class="history-body">Quanto é 42 × 17? E o que é Python?</span></div>
-                    <div class="history-msg"><span class="history-role">function_call</span><span class="history-body">calcular({"operacao": "multiplicacao", "a": 42, "b": 17})</span></div>
-                    <div class="history-msg"><span class="history-role">function_output</span><span class="history-body">714</span></div>
-                    <div class="history-msg"><span class="history-role">function_call</span><span class="history-body">buscar_informacao({"topico": "Python"})</span></div>
-                    <div class="history-msg"><span class="history-role">function_output</span><span class="history-body">Python é uma linguagem de programação criada por Guido van Rossum em 1991.</span></div>
+                    <div class="history-msg"><span class="history-role">tool call</span><span class="history-body">calcular(multiplicacao, 42, 17)</span></div>
+                    <div class="history-msg"><span class="history-role">tool output</span><span class="history-body">714</span></div>
+                    <div class="history-msg"><span class="history-role">tool call</span><span class="history-body">buscar_informacao("Python")</span></div>
+                    <div class="history-msg"><span class="history-role">tool output</span><span class="history-body">Linguagem criada por Guido van Rossum em 1991.</span></div>
                 </div>
             </div>
-            <p>
-                O histórico cresceu de 2 para 6 mensagens. Agora o LLM vai receber
-                <strong>tudo isso</strong> de volta e ver os resultados das ferramentas.
-            </p>
         `
     },
 
-    // =====================================================================
-    // STEP 9: Second API call
-    // =====================================================================
+    // 9
     {
         render: () => `
-            <div class="step-number">Passo 9 de 10</div>
-            <h2>Iteração 2 — Chamando o LLM de novo</h2>
-            <p>
-                Voltamos ao início do loop! Enviamos o histórico atualizado
-                (agora com os resultados das tools) para o LLM:
-            </p>
-            ${codeBlock('python', `# Mesma chamada, mas agora messages tem 6 items
-response = client.responses.create(
+            <div class="step-label">Passo 9 de 10</div>
+            <h2>Iteração 2 — resposta final</h2>
+            <p>O LLM recebe o histórico completo com os resultados. Agora tem informação suficiente:</p>
+            ${codeBlock('python', `response = client.responses.create(
     model="gpt-4o",
-    input=messages,       # Histórico completo (6 mensagens)
-    tools=tools,          # Mesmas tools disponíveis
+    input=messages,  # 6 mensagens agora
+    tools=tools,
 )`)}
-            <p>
-                O LLM vê os resultados: <code>714</code> e a definição de Python.
-                Agora ele tem informação suficiente para responder!
-            </p>
-            <div class="data-box green">
-                <div class="label">Resposta final do LLM</div>
+            <div class="box">
+                <div class="label">Resposta do LLM</div>
                 <div class="content">
                     42 × 17 = <strong>714</strong>.<br><br>
                     <strong>Python</strong> é uma linguagem de programação criada por Guido van Rossum em 1991.
-                    É conhecida pela sintaxe simples e pela comunidade ativa.
                 </div>
             </div>
-            <p>
-                Dessa vez o LLM retornou <strong>texto</strong>, não tool calls.
-                Isso significa que o loop terminou — temos a resposta final!
-            </p>
+            <p>Retornou <strong>texto</strong>, não tool calls. O loop terminou.</p>
         `
     },
 
-    // =====================================================================
-    // STEP 10: The full picture
-    // =====================================================================
+    // 10
     {
         render: () => `
-            <div class="step-number">Passo 10 de 10</div>
-            <h2>O loop completo — isso é um agente</h2>
-            <p>Vamos ver o código completo do loop agentivo. <strong>É isso que frameworks como LangChain fazem por baixo dos panos:</strong></p>
+            <div class="step-label">Passo 10 de 10</div>
+            <h2>Isso é um agente.</h2>
+            <p>O código completo:</p>
             ${codeBlock('python', `import openai, json
 
 client = openai.Client(api_key="...")
@@ -629,7 +474,6 @@ messages = [
     {"role": "user", "content": user_input},
 ]
 
-# O loop agentivo — o coração de qualquer agente
 for iteration in range(max_iterations):
     response = client.responses.create(
         model="gpt-4o",
@@ -637,54 +481,38 @@ for iteration in range(max_iterations):
         tools=tools,
     )
 
-    # Separar tool calls da resposta
     tool_calls = [item for item in response.output
                   if item.type == "function_call"]
 
     if tool_calls:
-        # O LLM quer usar ferramentas → executar e continuar
         for tc in tool_calls:
-            args = json.loads(tc.arguments)
-            result = tools_map[tc.name](**args)
-
+            result = tools_map[tc.name](**json.loads(tc.arguments))
             messages.append({"type": "function_call", ...})
             messages.append({"type": "function_call_output", ...})
-        # Volta ao início do loop ↑
     else:
-        # O LLM respondeu com texto → resposta final!
         print(response.output[0].content)
         break`)}
-            <div class="callout important">
-                <strong>A "autonomia" do agente está nesse loop.</strong>
-                O LLM decide sozinho se precisa de mais informação (chamando tools)
-                ou se já pode responder. Esse ciclo pode ter 1, 2, 5 ou mais iterações
-                — depende da complexidade da tarefa. É isso que torna o agente "autônomo":
-                ele segue as instruções do system prompt e decide quando e quais ferramentas usar
-                até completar a tarefa.
+            <div class="callout">
+                <strong>A autonomia está no loop.</strong> O LLM decide sozinho se precisa de mais informação
+                ou se já pode responder. Pode ser 1, 2 ou 20 iterações — depende da tarefa.
+                É isso que torna o agente autônomo.
             </div>
-            <p>No nosso exemplo foram <strong>2 iterações</strong>:</p>
             <div class="diagram" style="text-align:left">
-                <span class="highlight">Iteração 1:</span> User pergunta → LLM pede 2 tools → Executamos → Resultado volta<br>
-                <span class="highlight">Iteração 2:</span> LLM vê os resultados → Responde com texto → Fim ✓<br><br>
-                Em tarefas mais complexas (pesquisa, análise de dados, código),<br>
-                o agente pode fazer 5, 10, 20+ iterações, chamando diferentes<br>
-                ferramentas a cada passo — tudo de forma autônoma.
+                <b>Iteração 1:</b> User pergunta → LLM pede 2 tools → Executamos → Resultado volta<br>
+                <b>Iteração 2:</b> LLM vê resultados → Responde → Fim ✓<br><br>
+                Em tarefas complexas, o agente pode fazer dezenas de iterações,<br>
+                chamando ferramentas diferentes a cada passo.
             </div>
             <p>
-                O código completo desta implementação está em
-                <code>simpleagent/agents/base.py</code>. Leia o README para o guia de leitura completo.
+                A implementação completa está em <code>simpleagent/agents/base.py</code>.
             </p>
-            <div style="margin-top:1.5rem">
-                <button class="btn-next" onclick="location.reload()">Recomeçar ↻</button>
+            <div style="margin-top:2rem">
+                <button class="btn-next" onclick="location.reload()">Recomeçar</button>
             </div>
         `
     },
 
     ];
-
-    // =====================================================================
-    // Rendering logic
-    // =====================================================================
 
     let currentStep = 0;
     const totalSteps = STEPS.length;
@@ -697,7 +525,6 @@ for iteration in range(max_iterations):
             <pre><code class="hljs language-${lang}">${highlighted}</code></pre>
         </div>`;
     }
-    // Make codeBlock available in step render functions
     window.codeBlock = codeBlock;
 
     function updateProgress() {
@@ -714,48 +541,31 @@ for iteration in range(max_iterations):
     function renderStep() {
         const container = document.getElementById('steps-container');
         const step = STEPS[currentStep];
-
         const div = document.createElement('div');
         div.className = 'step';
         div.innerHTML = step.render();
 
-        // Add "next" button (except on last step which has its own)
         if (currentStep < totalSteps - 1) {
             const btnDiv = document.createElement('div');
-            btnDiv.style.marginTop = '1.2rem';
-            const isFirst = currentStep === 0;
             btnDiv.innerHTML = `<button class="btn-next" onclick="nextStep()">
-                ${isFirst ? 'Vamos lá!' : 'Entendi, próximo passo!'} →
+                ${currentStep === 0 ? 'Começar' : 'Entendi, próximo passo'} →
             </button>`;
             div.appendChild(btnDiv);
         }
 
         container.appendChild(div);
         updateProgress();
-
-        // Scroll to new step
-        if (currentStep > 0) {
-            div.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+        if (currentStep > 0) div.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function nextStep() {
-        // Disable the previous button
         const btns = document.querySelectorAll('.btn-next');
         const lastBtn = btns[btns.length - 1];
-        if (lastBtn) {
-            lastBtn.disabled = true;
-            lastBtn.style.opacity = '0.3';
-            lastBtn.style.cursor = 'default';
-        }
-
+        if (lastBtn) { lastBtn.disabled = true; lastBtn.style.opacity = '0.2'; lastBtn.style.cursor = 'default'; }
         currentStep++;
-        if (currentStep < totalSteps) {
-            renderStep();
-        }
+        if (currentStep < totalSteps) renderStep();
     }
 
-    // Start
     renderStep();
     </script>
 </body>
