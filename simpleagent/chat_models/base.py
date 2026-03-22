@@ -12,9 +12,9 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 import openai
-from messages.messages import AIMessage, Message, ToolCall, ToolMessage
+from ..messages import AIMessage, Message, ToolCall, ToolMessage
 from abc import ABC
-from typing import Generator, AsyncGenerator
+from typing import Any, Generator, AsyncGenerator
 
 
 class ChatModel(ABC):
@@ -205,6 +205,17 @@ class ChatModel(ABC):
         reasoning = ""
         tool_calls = []
 
+        # Mapa de output_index -> ResponseFunctionToolCall.
+        # O streaming da Responses API emite os dados de uma function_call em 2 etapas:
+        #   1. "response.output_item.added" — traz o item com metadados (call_id, id, name)
+        #      mas com arguments vazio ("")
+        #   2. "response.function_call_arguments.done" — traz os arguments completos
+        #      mas NÃO repete call_id (e name pode vir None)
+        #
+        # A estratégia é guardar o item da etapa 1 e, na etapa 2, apenas preencher
+        # os arguments nele. Assim o item pendente é a única fonte de verdade.
+        pending_tool_items: dict[int, Any] = {}
+
         # A Responses API emite eventos tipados via Server-Sent Events.
         # Cada evento tem event.type indicando o que aconteceu.
         for event in stream:
@@ -221,14 +232,24 @@ class ChatModel(ABC):
                     reasoning += event.delta
                     yield {"type": "reasoning", "content": event.delta}
 
-                # Function call completa: todos os argumentos da chamada chegaram.
-                # event contém call_id, item_id, name e arguments completos.
+                # Novo item de output adicionado ao response.
+                # Para function_calls, o item (ResponseFunctionToolCall) já traz
+                # os metadados completos: call_id, id, name.
+                # Guardamos indexado por output_index para parear com arguments.done.
+                case "response.output_item.added":
+                    if event.item.type == "function_call":
+                        pending_tool_items[event.output_index] = event.item
+
+                # Arguments da function call completos.
+                # Buscamos o item pendente (que tem call_id, id, name) e construímos
+                # o ToolCall com os arguments que acabaram de chegar.
                 case "response.function_call_arguments.done":
+                    item = pending_tool_items[event.output_index]
                     tc = ToolCall(
-                        call_id=event.call_id,
-                        id=event.item_id,
+                        call_id=item.call_id,
+                        id=item.id,
+                        name=item.name,
                         arguments=event.arguments,
-                        name=event.name,
                     )
                     tool_calls.append(tc)
                     yield {"type": "tool_call", "tool_call": tc}
@@ -283,6 +304,11 @@ class ChatModel(ABC):
         reasoning = ""
         tool_calls = []
 
+        # Mapa de output_index -> ResponseFunctionToolCall.
+        # Mesmo mecanismo do stream() síncrono — guarda o item completo
+        # (call_id, id, name) e depois preenche os arguments quando chegam.
+        pending_tool_items: dict[int, Any] = {}
+
         # async for: consome o stream de forma assíncrona.
         # Cada event é um Server-Sent Event da Responses API.
         # A lógica de parsing é idêntica ao stream() síncrono — a única diferença
@@ -296,19 +322,29 @@ class ChatModel(ABC):
                     yield {"type": "text", "content": event.delta}
 
                 # Delta de reasoning: um pedaço do raciocínio chegou.
-                # Só emitido por modelos o-series com reasoning_effort configurado.
+                # Só emitido por modelos com reasoning_effort configurado.
                 case "response.reasoning_summary_text.delta":
                     reasoning += event.delta
                     yield {"type": "reasoning", "content": event.delta}
 
-                # Function call completa: todos os argumentos da chamada chegaram.
-                # event contém call_id, item_id, name e arguments completos.
+                # Novo item de output adicionado ao response.
+                # Para function_calls, o item (ResponseFunctionToolCall) já traz
+                # os metadados completos: call_id, id, name.
+                # Guardamos indexado por output_index para parear com arguments.done.
+                case "response.output_item.added":
+                    if event.item.type == "function_call":
+                        pending_tool_items[event.output_index] = event.item
+
+                # Arguments da function call completos.
+                # Buscamos o item pendente (que tem call_id, id, name) e construímos
+                # o ToolCall com os arguments que acabaram de chegar.
                 case "response.function_call_arguments.done":
+                    item = pending_tool_items[event.output_index]
                     tc = ToolCall(
-                        call_id=event.call_id,
-                        id=event.item_id,
+                        call_id=item.call_id,
+                        id=item.id,
+                        name=item.name,
                         arguments=event.arguments,
-                        name=event.name,
                     )
                     tool_calls.append(tc)
                     yield {"type": "tool_call", "tool_call": tc}

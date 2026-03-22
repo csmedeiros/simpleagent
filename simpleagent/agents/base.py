@@ -9,9 +9,9 @@ items separados no histórico de mensagens (diferente da Chat Completions API).
 """
 
 import json
-from chat_models.base import ChatModel
-from agents.tools.base import Tool
-from messages import SystemMessage, HumanMessage, AIMessage, ToolMessage, ToolCall, Message
+from simpleagent.chat_models.base import ChatModel
+from simpleagent.agents.tools.base import Tool
+from simpleagent.messages import SystemMessage, HumanMessage, AIMessage, ToolMessage, ToolCall, Message
 from typing import Callable, List, AsyncGenerator, Any
 
 # ============================================================================
